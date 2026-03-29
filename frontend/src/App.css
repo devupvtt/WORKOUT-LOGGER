@@ -1,0 +1,111 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: white;
+}
+
+/* 🔥 container */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* 🔥 heading */
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, #00ffcc, #00aaff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 🔥 cards */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 20px rgba(0,255,200,0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* 🔥 inputs */
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: #111827;
+  color: white;
+}
+
+/* 🔥 button */
+button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #00ffcc, #00aaff);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* 🔥 workout list */
+.workout {
+  background: #111827;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+/* 💬 chat */
+.chat-box {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.user {
+  text-align: right;
+  background: #00ffcc;
+  color: black;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.ai {
+  text-align: left;
+  background: #1f2937;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+/* 📱 mobile */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+}

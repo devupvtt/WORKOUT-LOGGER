@@ -1,0 +1,37 @@
+.chat-container {
+  padding: 20px;
+}
+
+.chat-box {
+  height: 300px;
+  overflow-y: auto;
+  background: #020617;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.user {
+  text-align: right;
+  margin: 5px;
+  color: #00ff9d;
+}
+
+.ai {
+  text-align: left;
+  margin: 5px;
+  color: #00f5ff;
+}
+
+.chat-input {
+  display: flex;
+  margin-top: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+}
+
+.chat-input button {
+  padding: 10px;
+}
