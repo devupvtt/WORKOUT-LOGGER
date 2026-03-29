@@ -5,42 +5,51 @@ import Chat from "./Chat";
 import Analytics from "./Analytics";
 import "./App.css";
 
-function App() {
-  const API = "https://workout-logger-kk3m.onrender.com";
+// 🔥 LIVE BACKEND URL
+const API = "https://workout-logger-kk3m.onrender.com";
 
+function App() {
   const [user, setUser] = useState(null);
   const [workouts, setWorkouts] = useState([]);
+  const [suggestion, setSuggestion] = useState("");
 
   const [form, setForm] = useState({
     exercise: "",
     sets: "",
     reps: "",
     weight: "",
-    date: ""
+    date: "",
   });
 
-  const [suggestion, setSuggestion] = useState("");
-
-  // 🔹 Fetch workouts
+  // 🔄 GET WORKOUTS
   const fetchWorkouts = async () => {
     try {
       const res = await axios.get(`${API}/workouts`);
       setWorkouts(res.data);
     } catch (err) {
-      console.log("GET ERROR:", err);
+      console.error("GET ERROR:", err);
     }
   };
 
   useEffect(() => {
-    if (user) fetchWorkouts();
-  }, [user]);
+    fetchWorkouts();
+  }, []);
 
-  // 🔹 Add workout
+  // ➕ ADD WORKOUT
   const addWorkout = async () => {
     try {
-      await axios.post(`${API}/workouts`, form);
+      const payload = {
+        ...form,
+        sets: parseInt(form.sets),
+        reps: parseInt(form.reps),
+        weight: parseFloat(form.weight),
+      };
 
-      alert("Workout Added 💪");
+      console.log("Sending:", payload);
+
+      await axios.post(`${API}/workouts`, payload);
+
+      alert("Workout added 💪");
       fetchWorkouts();
 
       setForm({
@@ -48,103 +57,108 @@ function App() {
         sets: "",
         reps: "",
         weight: "",
-        date: ""
+        date: "",
       });
-
     } catch (err) {
-      console.log(err);
+      console.error("POST ERROR:", err);
       alert("Error adding workout ❌");
     }
   };
 
-  // 🔹 AI suggestion
+  // 🤖 AI SUGGESTION
   const getSuggestion = async () => {
     try {
       const res = await axios.get(`${API}/ai/suggestions`);
-      setSuggestion(res.data.suggestion);
+      setSuggestion(res.data.suggestion || "No suggestion");
     } catch (err) {
-      console.log(err);
+      console.error("AI ERROR:", err);
+      setSuggestion("AI not available ❌");
     }
   };
 
+  // 🔐 AUTH SCREEN
   if (!user) {
     return <Auth setUser={setUser} />;
   }
 
   return (
-    <div className="container">
-
+    <div className="app">
       <h1>🔥 AI Workout Dashboard</h1>
 
-      {/* 🏋️ Add Workout */}
+      {/* ➕ ADD WORKOUT */}
       <div className="card">
         <h2>Add Workout</h2>
 
         <input
           placeholder="Exercise"
           value={form.exercise}
-          onChange={e => setForm({ ...form, exercise: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, exercise: e.target.value })
+          }
         />
 
         <input
           placeholder="Sets"
           value={form.sets}
-          onChange={e => setForm({ ...form, sets: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, sets: e.target.value })
+          }
         />
 
         <input
           placeholder="Reps"
           value={form.reps}
-          onChange={e => setForm({ ...form, reps: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, reps: e.target.value })
+          }
         />
 
         <input
           placeholder="Weight"
           value={form.weight}
-          onChange={e => setForm({ ...form, weight: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, weight: e.target.value })
+          }
         />
 
         <input
           type="date"
           value={form.date}
-          onChange={e => setForm({ ...form, date: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, date: e.target.value })
+          }
         />
 
         <button onClick={addWorkout}>Add Workout</button>
       </div>
 
-      {/* 📜 Workout History */}
+      {/* 📜 WORKOUT HISTORY */}
       <div className="card">
         <h2>Workout History</h2>
 
         {workouts.length === 0 ? (
           <p>No workouts yet</p>
         ) : (
-          workouts.map(w => (
+          workouts.map((w) => (
             <div key={w.id} className="workout">
-              {w.exercise} - {w.sets}x{w.reps} ({w.weight}kg)
+              {w.exercise} - {w.reps} reps ({w.weight} kg)
             </div>
           ))
         )}
       </div>
 
-      {/* 📊 Analytics */}
-      <div className="card">
-        <Analytics workouts={workouts} />
-      </div>
-
-      {/* 🤖 AI Suggestion */}
+      {/* 🤖 AI COACH */}
       <div className="card">
         <h2>🤖 AI Coach</h2>
         <button onClick={getSuggestion}>Get Suggestion</button>
         <p>{suggestion}</p>
       </div>
 
-      {/* 💬 AI Chat */}
-      <div className="card">
-        <Chat />
-      </div>
+      {/* 💬 CHAT */}
+      <Chat />
 
+      {/* 📊 ANALYTICS */}
+      <Analytics workouts={workouts} />
     </div>
   );
 }
